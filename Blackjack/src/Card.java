@@ -10,15 +10,15 @@ public class Card
 	}
     public Card(int r, String s) 
     {
-        r = rank;
-        s = suit;
+        rank = r;
+        suit = s;
     }
-	
-	//method
-	public Card draw()
-	{
-		Card pick = new Card();
-		return pick;
-	}
-	
+    public int getValue() 
+    {
+        return rank;
+    }
+    public String getSuit() 
+    {
+        return suit;
+    }
 }

@@ -1,58 +1,73 @@
 public class Deck 
 {
-	Card [][] cardDeck = new Card[4][13];
+	private Card[][] cardDeck = new Card[4][13];
 	
-	public Deck(Card [][] d)
+	public Deck()
 	{
-		cardDeck=d;
+		createDeck();
 	}
 	
 	public void createDeck()
 	{
-		for (int rank = 1; rank < 14; rank++ )   
+		for (int suit = 0; suit < 4; suit++)   
 		{
-			cardDeck[0][rank-1]=new Card(rank, "h");
-		}
-		for (int rank = 1; rank < 14; rank++ )   
-		{
-			cardDeck[1][rank-1]=new Card(rank, "d");
-		}
-		for (int rank = 1; rank < 14; rank++ )   
-		{
-			cardDeck[2][rank-1]=new Card(rank, "c");
-		}
-		for (int rank = 1; rank < 14; rank++ )   
-		{
-			cardDeck[3][rank-1]=new Card(rank, "s");
+			for (int rank = 0; rank < 13; rank++)
+			{
+				String suitStr = suit == 0 ? "h" : suit == 1 ? "d" : suit == 2 ? "c" : "s";
+				cardDeck[suit][rank] = new Card(rank + 1, suitStr);
+			}
 		}
 	}
-	public void remove()
+	
+	public void shuffle()
 	{
-		int count=0;
-		while(count>40)
+		for (int suit = 0; suit < 4; suit++)
 		{
-			int x = (int)(Math.random()*4);
-			int y = (int)(Math.random()*52);
-			if(cardDeck[x][y]!=null)
+			for (int rank = 0; rank < 13; rank++)
 			{
-				cardDeck[x][y]=null;
-				count++;
-			}
-			else 
-			{
-				continue;
+				int randSuit = (int)(Math.random() * 4);
+				int randRank = (int)(Math.random() * 13);
+				Card temp = cardDeck[suit][rank];
+				cardDeck[suit][rank] = cardDeck[randSuit][randRank];
+				cardDeck[randSuit][randRank] = temp;
 			}
 		}
-		createDeck();
 	}
+	
+	public Card getCard(int suit, int rank)
+	{
+		return cardDeck[suit][rank];
+	}
+	
 	public void printDeck()
 	{
-		for (int suit = 0; suit < 4; suit++ )   
+		for (int suit = 0; suit < 4; suit++)   
 		{
-			for ( int rank = 1; rank <= 13; rank++ )
+			for (int rank = 0; rank < 13; rank++)
 			{
-				System.out.print(cardDeck[rank][suit]);
+				if (cardDeck[suit][rank] != null)
+				{
+					System.out.print(cardDeck[suit][rank].getValue() + cardDeck[suit][rank].getSuit() + " ");
+				}
+			}
+			System.out.println();
+		}
+	}
+
+	public Card drawCard() 
+	{
+		for (int suit = 0; suit < 4; suit++)   
+		{
+			for (int rank = 0; rank < 13; rank++)
+			{
+				if (cardDeck[suit][rank] != null)
+				{
+					Card drawnCard = cardDeck[suit][rank];
+					cardDeck[suit][rank] = null; // Remove card from deck
+					return drawnCard;
+				}
 			}
 		}
+		return null; // No cards left to draw
 	}
 }
