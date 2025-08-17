@@ -30,5 +30,5 @@ public class Card
             default -> rankStr = String.valueOf(rank);
         }
         return rankStr + suit; // e.g., "As", "10d"
-}
+    }
 }

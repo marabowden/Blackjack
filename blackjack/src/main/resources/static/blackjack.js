@@ -57,21 +57,21 @@ function updateUI(data) {
     // Player
     playerHandDiv.innerHTML = "";
     data.playerHand.forEach(card => {
-        const div = document.createElement("div");
-        div.className = "card";
-        div.textContent = card;
-        playerHandDiv.appendChild(div);
+        const img = document.createElement("img");
+        img.src = cardToImageUrl(card);
+        img.className = "card-img";
+        playerHandDiv.appendChild(img);
     });
-    playerPointsP.textContent = `Points: ${data.playerPoints}`;
 
     // Dealer
     dealerHandDiv.innerHTML = "";
     data.dealerHand.forEach(card => {
-        const div = document.createElement("div");
-        div.className = "card";
-        div.textContent = card;
-        dealerHandDiv.appendChild(div);
+        const img = document.createElement("img");
+        img.src = cardToImageUrl(card);
+        img.className = "card-img";
+        dealerHandDiv.appendChild(img);
     });
+
 
     // Status
     statusP.textContent = data.status;
@@ -81,4 +81,46 @@ function updateUI(data) {
         standBtn.disabled = true;
         startBtn.disabled = false;
     }
+}
+
+// Utility function to map card string to image filename
+function cardToImageUrl(cardString) {
+    if (cardString === "?") {
+        return "assets/back.png"; // hidden card
+    }
+
+    // Split rank and suit
+    const rankChar = cardString.slice(0, -1);  // e.g. "10", "A", "K"
+    const suitChar = cardString.slice(-1); // e.g. "♠", "♥", "♦", "♣"
+
+    // Map suit symbols to words
+    const suitMap = {
+        "s": "spades",
+        "h": "hearts",
+        "d": "diamonds",
+        "c": "clubs"
+    };
+
+    // Map rank to strings
+    const rankMap = {
+        "A": "ace",
+        "K": "king",
+        "Q": "queen",
+        "J": "jack",
+        "10": "10",
+        "9": "9",
+        "8": "8",
+        "7": "7",
+        "6": "6",
+        "5": "5",
+        "4": "4",
+        "3": "3",
+        "2": "2",
+    };
+
+    const suit = suitMap[suitChar];
+    const rank = rankMap[rankChar];
+    const fileName = `${rank}_of_${suit}.png`;
+
+    return `assets/${fileName}`;
 }
