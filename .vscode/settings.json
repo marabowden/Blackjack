@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "game/src/main/java/com/blackjack/game"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
+}
